@@ -31,6 +31,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <meta name="mobile-web-app-capable" content='yes'/>
+      <link rel="apple-touch-icon" sizes="796x789" href='icon.png'/>
       <body className={`${inter.className} antialiased`}>{children}</body>
     </html>
   );
