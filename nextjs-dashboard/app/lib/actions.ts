@@ -3,6 +3,8 @@ import { z } from 'zod'; //a TypeScript-first validation library
 import { sql } from '@vercel/postgres'; // allow use SQL query
 import { revalidatePath } from 'next/cache'; //clear cache and trigger a new request when has updating data
 import { redirect } from 'next/navigation';
+import { signIn } from '@/auth';
+import { AuthError } from 'next-auth';
 
 const FormSchema = z.object({
     id: z.string(),
@@ -102,5 +104,24 @@ export async function updateInvoice(id: string, prevState: State, formData: Form
         return { message: 'Deleted Invoice.' };
     } catch (error) {
         return { message: 'Database Error: Failed to Delete Invoice.' };
+    }
+  }
+
+  export async function authenticate(
+    prevState: string | undefined,
+    formData: FormData,
+  ) {
+    try {
+      await signIn('credentials', formData);
+    } catch (error) {
+      if (error instanceof AuthError) {
+        switch (error.type) {
+          case 'CredentialsSignin':
+            return 'Invalid credentials.';
+          default:
+            return 'Something went wrong.';
+        }
+      }
+      throw error;
     }
   }
