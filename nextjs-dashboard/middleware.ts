@@ -8,5 +8,4 @@
 //   matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)'],
 // };
 export default function hello(){
-  console.log('');
 }

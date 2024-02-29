@@ -107,6 +107,22 @@ export async function updateInvoice(id: string, prevState: State, formData: Form
     }
   }
 
+  export async function createStudents(name:string,rollNumber:number,status:string) {
+    try {
+        await sql `
+        INSERT INTO students (name, rollNumber, status)
+        VALUES (${name}, ${rollNumber}, ${status})
+        `;
+
+        console.log('added');
+        
+    } catch (error) {
+        return {
+            message: 'Database Error: Failed to Create students.'
+        }
+
+    }
+}
   // export async function authenticate(
   //   prevState: string | undefined,
   //   formData: FormData,
